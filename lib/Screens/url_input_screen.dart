@@ -39,33 +39,6 @@ class _UrlInputScreenState extends State<UrlInputScreen> {
                   margin: const EdgeInsets.only(bottom: 40),
                   child: Column(
                     children: [
-                      Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              SpexColors.spexCyan,
-                              SpexColors.spexYellow,
-                            ],
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: SpexColors.spexCyan.withOpacity(0.3),
-                              blurRadius: 20,
-                              spreadRadius: 5,
-                            ),
-                          ],
-                        ),
-                        child: const Icon(
-                          Icons.language,
-                          size: 40,
-                          color: Colors.black,
-                        ),
-                      ),
                       const SizedBox(height: 20),
                       RichText(
                         text: TextSpan(
@@ -178,7 +151,7 @@ class _UrlInputScreenState extends State<UrlInputScreen> {
 
                         const SizedBox(height: 24),
 
-                        // Crawling Options
+                        // Crawling Parameters
                         Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
@@ -222,7 +195,7 @@ class _UrlInputScreenState extends State<UrlInputScreen> {
 
                         const SizedBox(height: 32),
 
-                        // Start Button
+                        // Start Indexing Button
                         SizedBox(
                           width: double.infinity,
                           height: 56,
@@ -236,8 +209,7 @@ class _UrlInputScreenState extends State<UrlInputScreen> {
                                           await chatProvider.initializeWebsite(
                                             _urlController.text.trim(),
                                           );
-                                          // Navigation to chat screen will happen automatically
-                                          // through provider state changes
+                                          // Navigation handled automatically via provider state
                                         } catch (e) {
                                           ScaffoldMessenger.of(
                                             context,
@@ -249,7 +221,7 @@ class _UrlInputScreenState extends State<UrlInputScreen> {
                                                   color: Colors.red,
                                                 ),
                                               ),
-                                              backgroundColor: Colors.black,
+                                              backgroundColor: Colors.black87,
                                             ),
                                           );
                                         }
@@ -296,7 +268,7 @@ class _UrlInputScreenState extends State<UrlInputScreen> {
                                           height: 20,
                                           child: CircularProgressIndicator(
                                             strokeWidth: 2,
-                                            color: Colors.black,
+                                            color: Colors.blueGrey,
                                           ),
                                         ),
                                         SizedBox(width: 12),
@@ -318,32 +290,26 @@ class _UrlInputScreenState extends State<UrlInputScreen> {
                           ),
                         ),
 
-                        if (chatProvider.isCrawling || chatProvider.isIndexing)
+                        // Progress Indicator
+                        if (chatProvider.isCrawling ||
+                            chatProvider.isIndexing) ...[
                           const SizedBox(height: 20),
-
-                        // Progress Animation
-                        if (chatProvider.isCrawling || chatProvider.isIndexing)
-                          Column(
-                            children: [
-                              LinearProgressIndicator(
-                                value: chatProvider.isCrawling ? null : 0.5,
-                                backgroundColor: SpexColors.spexSurface,
-                                color: SpexColors.spexCyan,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              const SizedBox(height: 12),
-                              Text(
-                                chatProvider.isCrawling
-                                    ? '🕸️ Crawling website pages...'
-                                    : '📚 Indexing content for AI chat...',
-                                style: Theme.of(
-                                  context,
-                                ).textTheme.bodySmall?.copyWith(
-                                  color: SpexColors.spexTextSecondary,
-                                ),
-                              ),
-                            ],
+                          LinearProgressIndicator(
+                            value: chatProvider.isCrawling ? null : 0.7,
+                            backgroundColor: SpexColors.spexSurface,
+                            color: SpexColors.spexCyan,
+                            borderRadius: BorderRadius.circular(10),
                           ),
+                          const SizedBox(height: 12),
+                          Text(
+                            chatProvider.isCrawling
+                                ? 'Crawling website pages...'
+                                : 'Indexing content for AI chat...',
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(color: SpexColors.spexTextSecondary),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ],
                     ),
                   ),
@@ -351,7 +317,7 @@ class _UrlInputScreenState extends State<UrlInputScreen> {
 
                 const SizedBox(height: 40),
 
-                // Info Text
+                // Footer Info
                 Text(
                   'SPEX will crawl the website, extract content, and create an AI chatbot that can answer questions about it.',
                   textAlign: TextAlign.center,

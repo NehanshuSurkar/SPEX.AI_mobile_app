@@ -73,6 +73,27 @@ class SpexChatProvider extends ChangeNotifier {
     }
   }
 
+  // DEV ONLY: Instant mock initialization
+  void debugJumpToChat(String url) {
+    _websiteUrl = url;
+    _collectionName = "debug_collection";
+    _crawledPages = List.generate(15, (i) => "$url/page-$i.html");
+    _isInitialized = true;
+    _isChatActive = true;
+    _isCrawling = false;
+    _isIndexing = false;
+
+    _messages.clear();
+    _messages.add({
+      'role': 'assistant',
+      'content':
+          'Hello! This is debug mode.\n\nWebsite: $url\n15 pages loaded (mock data)\n\nYou can now test the full chat UI instantly!',
+      'isSystem': true,
+    });
+
+    notifyListeners();
+  }
+
   Future<void> sendChatMessage(String message) async {
     print('🔍 Provider: sendChatMessage called with: "$message"');
 

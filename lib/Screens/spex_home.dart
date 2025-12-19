@@ -14,7 +14,7 @@ class SpexHome extends StatefulWidget {
 }
 
 class _SpexHomeState extends State<SpexHome> {
-  bool _isUnlocked = false;
+  bool _isUnlocked = true;
   int _chatResetKey = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -68,9 +68,7 @@ class _SpexHomeState extends State<SpexHome> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'This project is an advanced AI chat interface designed for professional '
-                  'web crawling and data extraction. Built with cutting-edge technologies '
-                  'for modern, responsive, and immersive user experiences.',
+                  'Spex is an RAG-based system that allows users to input a website URL, automatically crawl and extract its content, and generate a custom Retrieval-Augmented Generation (RAG) based AI chatbot capable of answering user queries accurately using only the website’s data.',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(height: 16),
@@ -240,68 +238,65 @@ class _SpexHomeState extends State<SpexHome> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [SpexColors.spexBg, SpexColors.spexSurface],
+            colors: [Colors.black, SpexColors.spexSurface],
           ),
         ),
         child: Column(
           children: [
-            // Drawer Header
+            // Drawer Header (unchanged)
             Container(
               height: 200,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [
-                    SpexColors.spexCyan.withOpacity(0.2),
-                    Colors.transparent,
-                  ],
+                  colors: [Colors.transparent, Colors.transparent],
                 ),
                 border: Border(
                   bottom: BorderSide(color: SpexColors.spexBorder, width: 1),
                 ),
               ),
+
               child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [SpexColors.spexCyan, SpexColors.spexYellow],
+                    // Terminal Prompt "> _"
+                    Text(
+                      '> _',
+                      style: TextStyle(
+                        color: SpexColors.spexYellow,
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'monospace',
+                        height: 1,
+                        letterSpacing: -13,
+                      ),
+                    ),
+                    const SizedBox(width: 19),
+
+                    // SPEX.AI Text
+                    RichText(
+                      text: TextSpan(
+                        style: Theme.of(
+                          context,
+                        ).textTheme.displayMedium?.copyWith(
+                          fontSize: 36,
+                          fontStyle: FontStyle.italic,
+
+                          height: 1,
+                          letterSpacing: -1,
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: SpexColors.spexCyan.withOpacity(0.5),
-                            blurRadius: 20,
-                            spreadRadius: 5,
+                        children: [
+                          const TextSpan(
+                            text: 'SPEX',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          TextSpan(
+                            text: '.AI',
+                            style: TextStyle(color: SpexColors.spexYellow),
                           ),
                         ],
-                      ),
-                      child: const Icon(
-                        Icons.memory,
-                        size: 40,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'SPEX.AI SYSTEM',
-                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                        fontSize: 18,
-                        letterSpacing: 2,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'v2.4.0',
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: SpexColors.spexCyan,
                       ),
                     ),
                   ],
@@ -309,7 +304,7 @@ class _SpexHomeState extends State<SpexHome> {
               ),
             ),
 
-            // Drawer Items
+            // Drawer Items (unchanged)
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.symmetric(vertical: 24),
@@ -321,22 +316,12 @@ class _SpexHomeState extends State<SpexHome> {
                     onTap: _resetChat,
                     isPrimary: true,
                   ),
-
-                  // _DrawerTile(
-                  //   icon: Icons.dashboard,
-                  //   title: 'Dashboard',
-                  //   subtitle: 'System overview',
-                  //   onTap: () {},
-                  // ),
                   _DrawerTile(
                     icon: Icons.history,
                     title: 'History',
                     subtitle: 'Previous sessions',
-                    onTap: () {
-                      Navigator.pop(context); // Close drawer
-                    },
+                    onTap: () => Navigator.pop(context),
                   ),
-
                   _DrawerTile(
                     icon: Icons.apps,
                     title: 'My Agents',
@@ -349,13 +334,11 @@ class _SpexHomeState extends State<SpexHome> {
                     subtitle: 'Pre-built workflows',
                     onTap: () {},
                   ),
-
                   const Divider(
                     color: SpexColors.spexBorder,
                     height: 32,
                     thickness: 1,
                   ),
-
                   _DrawerTile(
                     icon: Icons.settings,
                     title: 'Configuration',
@@ -378,7 +361,9 @@ class _SpexHomeState extends State<SpexHome> {
               ),
             ),
 
-            // Footer Status
+            // ─────────────────────────────────────
+            // NEW: Logout button (replaces System Status)
+            // ─────────────────────────────────────
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -386,27 +371,35 @@ class _SpexHomeState extends State<SpexHome> {
                   top: BorderSide(color: SpexColors.spexBorder, width: 1),
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'SYSTEM STATUS',
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: SpexColors.spexTextSecondary,
-                      letterSpacing: 1.5,
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () async {
+                    // Close the drawer first
+                    Navigator.pop(context);
+
+                    // Optional: clear any auth tokens / session data here
+                    // await AuthService().signOut();
+
+                    // Navigate to your URL input / login screen
+                    // Replace the entire navigation stack so the user can't go back
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (_) => const UrlInputScreen()),
+                      (route) => false,
+                    );
+                  },
+                  icon: const Icon(Icons.logout, size: 20),
+                  label: const Text('Logout'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: SpexColors.spexCyan.withOpacity(0.2),
+                    foregroundColor: SpexColors.spexCyan,
+                    elevation: 0,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  _StatusIndicator(
-                    color: Colors.green,
-                    label: 'Neural Core: ONLINE',
-                  ),
-                  const SizedBox(height: 8),
-                  _StatusIndicator(
-                    color: SpexColors.spexCyan,
-                    label: 'Encryption: ACTIVE v2.4.0',
-                  ),
-                ],
+                ),
               ),
             ),
           ],

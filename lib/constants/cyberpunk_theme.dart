@@ -23,6 +23,26 @@ class SpexColors {
   // Interactive States
   static const Color activeChip = Color.fromRGBO(0, 240, 255, 0.1);
   static const Color yellowButton = spexYellow;
+
+  static const Color spexDarkBg = Color(0xFF0A0A0F);
+  static const Color spexCardBg = Color(0xFF11111A);
+  static const Color spexInputBg = Color(0xFF1A1A24);
+  static const Color spexPurpleAccent = Color(0xFF9D4EDD);
+  static const Color spexPinkAccent = Color(0xFFFF006E);
+  static const Color spexGreenAccent = Color(0xFF00FF88);
+  static const Color spexBlueAccent = Color(0xFF00BBF9);
+  static const Color spexTextDim = Color(0xFF8A8A9D);
+
+  // Gradient colors
+  static const List<Color> purplePinkGradient = [
+    Color(0xFF9D4EDD),
+    Color(0xFFFF006E),
+  ];
+
+  static const List<Color> blueGreenGradient = [
+    Color(0xFF00BBF9),
+    Color(0xFF00FF88),
+  ];
 }
 
 class SpexTheme {
@@ -106,6 +126,30 @@ class SpexTheme {
     ],
   );
 
+  static BoxDecoration get gradientBorderCard => BoxDecoration(
+    color: SpexColors.spexCardBg,
+    borderRadius: BorderRadius.circular(12),
+    border: Border.all(color: Colors.white.withOpacity(0.1), width: 1),
+    gradient: LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        SpexColors.spexPurpleAccent.withOpacity(0.1),
+        SpexColors.spexPinkAccent.withOpacity(0.1),
+      ],
+    ),
+  );
+  static BoxDecoration get neonGlowBorder => BoxDecoration(
+    borderRadius: BorderRadius.circular(12),
+    border: Border.all(color: SpexColors.spexPurpleAccent, width: 1.5),
+    boxShadow: [
+      BoxShadow(
+        color: SpexColors.spexPurpleAccent.withOpacity(0.3),
+        blurRadius: 10,
+        spreadRadius: 2,
+      ),
+    ],
+  );
   // Cyan Glow Border
   static BoxDecoration get cyanGlowBorder => BoxDecoration(
     borderRadius: BorderRadius.circular(16),
